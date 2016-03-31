@@ -1,3 +1,3 @@
 # ProjectOOP
 Project Code
-FAGGOTS 
+We kunnen ook op GitHub editten. 
