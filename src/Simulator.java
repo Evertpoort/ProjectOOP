@@ -1,3 +1,15 @@
+/*
+*Ik heb dus een pauze- en startknop aangemaakt in SimulatorView. 
+*Deze sturen hun action gewoon door naar Simulator dus daar zit geen probleem. 
+*Waar ik nu last van heb is dat de simulator alleen runt als je eerst op pauze klikt en dan op start klikt.
+*
+*Het probleem ligt dus bij de boolean simRunning die ik gebruik om de pauze en startknop hun functie te geven.
+*Deze boolean wordt gebruikt bij de while-statement die in de runsim() en tick() staan.
+*
+*Hoe kan ik nu zorgen dat hij start als ik op start drukt en pauzeert wanneer ik op stop druk?
+*
+*/
+
 import java.util.Random;
 import javax.swing.*;
 import java.awt.*;
@@ -14,8 +26,8 @@ public class Simulator implements ActionListener {
     private int day = 0;
     private int hour = 0;
     private int minute = 0;
-
     private int tickPause = 100;
+    private boolean simRunning = true;
 
     int weekDayArrivals= 50; // average number of arriving cars per hour
     int weekendArrivals = 90; // average number of arriving cars per hour
@@ -25,8 +37,7 @@ public class Simulator implements ActionListener {
     int exitSpeed = 9; // number of cars that can leave per minute
 
     public static void main(String[] args){
-        new Simulator();
-        
+        new Simulator();        
     }
     
     public Simulator() {
@@ -64,38 +75,54 @@ public class Simulator implements ActionListener {
                     }
                 }
                 if (command == "Start") {
+                    simRunning = true;
                     runsim(10000);
                 }
                 
-            }
-          
+                if (command == "Pause") {
+                    simRunning = false;
+                    runsim(10000);
+                }
+                
+                if (command == "Quit") {
+                    System.exit(0);
+                }                
+            }          
         };
-        
         newThread.start();
     }
     
     
     public void runsim(int steps) {
-        for (int i = 0; i < steps; i++) {
-            tick();
-        }
+        
+    	while(simRunning == true){
+    	
+    		for (int i = 0; i < steps; i++) {
+    			tick();
+    		}
+    	}
     }
 
     public void tick() {
         // Advance the time by one minute.
-        minute++;
-        while (minute > 59) {
-            minute -= 60;
-            hour++;
-        }
-        while (hour > 23) {
-            hour -= 24;
-            day++;
-        }
-        while (day > 6) {
-            day -= 7;
-        }
+    	
+    	while(simRunning == true){
 
+    		minute++;
+    		while (minute > 59) {
+    			minute -= 60;
+    			hour++;
+    		}
+    		while (hour > 23) {
+	            hour -= 24;
+	            day++;
+	        }
+	        while (day > 6) {
+	            day -= 7;
+	        }
+    	}
+    	
+    	
         Random random = new Random();
 
         // Get the average number of cars that arrive per hour.
