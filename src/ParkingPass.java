@@ -4,7 +4,7 @@
 * But the owner will be accounted for on the end of his parking and will be charged on
 * his account.
 */
-public class ParkingPass extends car {
+public class ParkingPass extends Car {
 		public ParkingPass() {
 			
 		}
