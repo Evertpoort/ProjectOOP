@@ -9,10 +9,7 @@ public class SimulatorView extends JFrame {
     private int numberOfRows;
     private int numberOfPlaces;
     private Car[][][] cars;
-    private JFrame frame;
-    private JLabel label;
-    private ActionEvent event; 
-    
+
     public SimulatorView(int numberOfFloors, int numberOfRows, int numberOfPlaces, Simulator parent) {
         this.numberOfFloors = numberOfFloors;
         this.numberOfRows = numberOfRows;
@@ -27,15 +24,14 @@ public class SimulatorView extends JFrame {
         JPanel toolbar = new JPanel();
         toolbar.setLayout(new GridLayout(1, 0));
         
-        JButton stepButton = new JButton("Step one minute");
-        stepButton.addActionListener(parent);
-        toolbar.add(stepButton);
-        
-       
         JButton startButton = new JButton("Start");
         startButton.addActionListener(parent);
         toolbar.add(startButton);
-                  
+        
+        JButton stepButton = new JButton("Step one minute");
+        stepButton.addActionListener(parent);
+        toolbar.add(stepButton);
+     
         JButton pauseButton = new JButton("Pause");
         pauseButton.addActionListener(parent);
         toolbar.add(pauseButton);
