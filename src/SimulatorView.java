@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
+import javax.swing.border.*;
 
 public class SimulatorView extends JFrame {
     private CarParkView carParkView;
@@ -7,25 +9,49 @@ public class SimulatorView extends JFrame {
     private int numberOfRows;
     private int numberOfPlaces;
     private Car[][][] cars;
-
-    public SimulatorView(int numberOfFloors, int numberOfRows, int numberOfPlaces) {
+    private JFrame frame;
+    private JLabel label;
+    private ActionEvent event; 
+    
+    public SimulatorView(int numberOfFloors, int numberOfRows, int numberOfPlaces, Simulator parent) {
         this.numberOfFloors = numberOfFloors;
         this.numberOfRows = numberOfRows;
         this.numberOfPlaces = numberOfPlaces;
         cars = new Car[numberOfFloors][numberOfRows][numberOfPlaces];
-        
         carParkView = new CarParkView();
-
+        
+        
+        
         Container contentPane = getContentPane();
-        //contentPane.add(stepLabel, BorderLayout.NORTH);
+        
+        JPanel toolbar = new JPanel();
+        toolbar.setLayout(new GridLayout(1, 0));
+        
+        JButton stepButton = new JButton("Step one minute");
+        stepButton.addActionListener(parent);
+        toolbar.add(stepButton);
+        
+       
+        JButton startButton = new JButton("Start");
+        startButton.addActionListener(parent);
+        toolbar.add(startButton);
+        
+        JPanel flow = new JPanel();
+        flow.add(toolbar);
+        
+        contentPane.add(flow, BorderLayout.NORTH);
+        
         contentPane.add(carParkView, BorderLayout.CENTER);
         //contentPane.add(population, BorderLayout.SOUTH);
+        
         pack();
         setVisible(true);
 
         updateView();
     }
-
+   
+    
+    
     public void updateView() {
         carParkView.updateView();
     }
@@ -180,6 +206,7 @@ public class SimulatorView extends JFrame {
                         Car car = getCarAt(location);
                         Color color = car == null ? Color.white : Color.red;
                         drawPlace(graphics, location, color);
+                        
                     }
                 }
             }

@@ -1,12 +1,16 @@
 import java.util.Random;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.border.*;
 
-public class Simulator {
-
+public class Simulator implements ActionListener {
     private CarQueue entranceCarQueue;
     private CarQueue paymentCarQueue;
     private CarQueue exitCarQueue;
     private SimulatorView simulatorView;
-
+    private ActionEvent event;
+  
     private int day = 0;
     private int hour = 0;
     private int minute = 0;
@@ -20,26 +24,64 @@ public class Simulator {
     int paymentSpeed = 10; // number of cars that can pay per minute
     int exitSpeed = 9; // number of cars that can leave per minute
 
-    public static void main(String [ ] args){
-    	Simulator simulator = new Simulator();
-    	simulator.run();
+    public static void main(String[] args){
+        new Simulator();
+        
     }
     
-   
     public Simulator() {
         entranceCarQueue = new CarQueue();
         paymentCarQueue = new CarQueue();
         exitCarQueue = new CarQueue();
-        simulatorView = new SimulatorView(3, 6, 30);
+        simulatorView = new SimulatorView(3, 6, 30, this);
+        
     }
-
-    public void run() {
-        for (int i = 0; i < 10000; i++) {
+    
+    /**
+     * Implementation of thread override.
+     * @author Sam Kroon
+     */
+    public void setActionEvent(ActionEvent e) {
+        event = e;
+    }
+    
+    public ActionEvent getActionEvent() {
+        return event;
+    }
+    
+    public void actionPerformed(ActionEvent e) {
+        setActionEvent(e);
+        
+        Thread newThread = new Thread() {
+            public void run() {
+                ActionEvent event = getActionEvent();
+                
+                String command = event.getActionCommand();
+                
+                if(command == "Step one minute") {
+                    for(int i = 0; i<1; i++) {
+                        tick();
+                    }
+                }
+                if (command == "Start") {
+                    runsim(10000);
+                }
+                
+            }
+          
+        };
+        
+        newThread.start();
+    }
+    
+    
+    public void runsim(int steps) {
+        for (int i = 0; i < steps; i++) {
             tick();
         }
     }
 
-    private void tick() {
+    public void tick() {
         // Advance the time by one minute.
         minute++;
         while (minute > 59) {
@@ -68,14 +110,8 @@ public class Simulator {
 
         // Add the cars to the back of the queue.
         for (int i = 0; i < numberOfCarsPerMinute; i++) {
-        	if (i == 4){
-        		Car car = new ParkingPass();
-        		entranceCarQueue.addCar(car);
-        	}
-        	else{
             Car car = new AdHocCar();
             entranceCarQueue.addCar(car);
-        	}
         }
 
         // Remove car from the front of the queue and assign to a parking space.
@@ -104,7 +140,6 @@ public class Simulator {
             }
             car.setIsPaying(true);
             paymentCarQueue.addCar(car);
-            
         }
 
         // Let cars pay.
