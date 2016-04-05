@@ -110,8 +110,18 @@ public class Simulator implements ActionListener {
 
         // Add the cars to the back of the queue.
         for (int i = 0; i < numberOfCarsPerMinute; i++) {
+        	Random r = new Random();
+        	int Low = 0;
+        	int High = 11;
+        	int Result = r.nextInt(High-Low) + Low;
+        	if (Result > 8){
+        		Car car = new ParkingPass();
+        		entranceCarQueue.addCar(car);
+        		}
+        	else{
             Car car = new AdHocCar();
             entranceCarQueue.addCar(car);
+        	}
         }
 
         // Remove car from the front of the queue and assign to a parking space.
