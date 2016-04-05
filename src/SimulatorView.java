@@ -35,6 +35,14 @@ public class SimulatorView extends JFrame {
         JButton startButton = new JButton("Start");
         startButton.addActionListener(parent);
         toolbar.add(startButton);
+                  
+        JButton pauseButton = new JButton("Pause");
+        pauseButton.addActionListener(parent);
+        toolbar.add(pauseButton);
+        
+        JButton quitButton = new JButton("Quit");
+        quitButton.addActionListener(parent);
+        toolbar.add(quitButton);
         
         JPanel flow = new JPanel();
         flow.add(toolbar);

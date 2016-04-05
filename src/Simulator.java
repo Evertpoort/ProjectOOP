@@ -67,6 +67,14 @@ public class Simulator implements ActionListener {
                     runsim(10000);
                 }
                 
+                if (command == "Pause") {
+                    runsim(0);
+                }
+                
+                if (command == "Quit") {
+                    System.exit(0);
+                }
+                
             }
           
         };
