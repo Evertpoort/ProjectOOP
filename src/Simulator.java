@@ -126,13 +126,20 @@ public class Simulator implements ActionListener {
         	int Low = 0;
         	int High = 11;
         	int Result = r.nextInt(High-Low) + Low;
+        	
         	if (Result > 8){
         		Car car = new ParkingPass();
         		entranceCarQueue.addCar(car);
         		}
-        	else{
-            Car car = new AdHocCar();
-            entranceCarQueue.addCar(car);
+        	
+        	if (Result < 3 ){
+        		Car car = new ReservationCar();
+        		entranceCarQueue.addCar(car);
+        	}
+        	
+        	else {
+        		Car car = new AdHocCar();
+        		entranceCarQueue.addCar(car);
         	}
         }
 
@@ -164,10 +171,18 @@ public class Simulator implements ActionListener {
             	simulatorView.removeCarAt(car.getLocation());
             	exitCarQueue.addCar(car);
             }
+            
+            if (car instanceof ReservationCar){
+            	simulatorView.removeCarAt(car.getLocation());
+            	exitCarQueue.addCar(car);
+            }
+            
             if (car instanceof AdHocCar){
             car.setIsPaying(true);
             paymentCarQueue.addCar(car);
             }
+            
+            
         }
 
         // Let cars pay.
