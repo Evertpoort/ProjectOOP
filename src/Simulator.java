@@ -27,7 +27,7 @@ public class Simulator implements ActionListener {
     private int hour = 0;
     private int minute = 0;
     private int tickPause = 100;
-    private boolean simRunning = true;
+    private boolean simRunning = false;
 
     int weekDayArrivals= 50; // average number of arriving cars per hour
     int weekendArrivals = 90; // average number of arriving cars per hour
@@ -52,6 +52,7 @@ public class Simulator implements ActionListener {
      * Implementation of thread override.
      * @author Sam Kroon
      */
+    
     public void setActionEvent(ActionEvent e) {
         event = e;
     }
@@ -81,7 +82,6 @@ public class Simulator implements ActionListener {
                 
                 if (command == "Pause") {
                     simRunning = false;
-                    runsim(10000);
                 }
                 
                 if (command == "Quit") {
@@ -94,19 +94,25 @@ public class Simulator implements ActionListener {
     
     
     public void runsim(int steps) {
-        
-    	while(simRunning == true){
-    	
+          
     		for (int i = 0; i < steps; i++) {
+    			if(simRunning == true){
     			tick();
-    		}
+    			}
+    			else{
+    				break;
+    			}
+    			
+    		}	
     	}
-    }
+    
+    	
+    
+    
 
     public void tick() {
         // Advance the time by one minute.
     	
-    	while(simRunning == true){
 
     		minute++;
     		while (minute > 59) {
@@ -120,7 +126,7 @@ public class Simulator implements ActionListener {
 	        while (day > 6) {
 	            day -= 7;
 	        }
-    	}
+    	
     	
     	
         Random random = new Random();
