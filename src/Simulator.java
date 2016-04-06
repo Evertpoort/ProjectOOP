@@ -16,6 +16,10 @@ public class Simulator implements ActionListener {
     private int minute = 0;
     private int tickPause = 100;
     
+    private static final double AdHocProb = 0.6;
+    private static final double ParkingPassProb = 0.3;
+    private static final double ReservevationProb = 0.1;
+    
     private boolean simRunning = false;
 
     int weekDayArrivals= 50; // average number of arriving cars per hour
@@ -121,27 +125,23 @@ public class Simulator implements ActionListener {
         int numberOfCarsPerMinute = (int)Math.round(numberOfCarsPerHour / 60);
 
         // Add the cars to the back of the queue.
+        Random r = new Random();
+        
         for (int i = 0; i < numberOfCarsPerMinute; i++) {
-        	Random r = new Random();
-        	int Low = 0;
-        	int High = 11;
-        	int Result = r.nextInt(High-Low) + Low;
-        	
-        	if (Result > 8){
-        		Car car = new ParkingPass();
-        		entranceCarQueue.addCar(car);
-        		}
-        	
-        	if (Result < 3 ){
-        		Car car = new ReservationCar();
-        		entranceCarQueue.addCar(car);
-        	}
-        	
-        	else {
-        		Car car = new AdHocCar();
-        		entranceCarQueue.addCar(car);
-        	}
+            if(r.nextDouble() <= AdHocProb) {
+                    Car car = new AdHocCar();
+                    entranceCarQueue.addCar(car);
+                }
+                else if(r.nextDouble() <= ParkingPassProb) {
+                    Car car = new ParkingPass();
+                    entranceCarQueue.addCar(car);
+                }
+                else if(r.nextDouble() <= ReservevationProb) {
+                    Car car = new ReservationCar();
+                    entranceCarQueue.addCar(car);
+                }
         }
+ 
 
         // Remove car from the front of the queue and assign to a parking space.
         for (int i = 0; i < enterSpeed; i++) {
