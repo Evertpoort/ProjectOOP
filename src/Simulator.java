@@ -175,8 +175,14 @@ public class Simulator implements ActionListener {
             if (car == null) {
                 break;
             }
+            if (car instanceof ParkingPass){
+            	simulatorView.removeCarAt(car.getLocation());
+            	exitCarQueue.addCar(car);
+            }
+            if (car instanceof AdHocCar){
             car.setIsPaying(true);
             paymentCarQueue.addCar(car);
+            }
         }
 
         // Let cars pay.
