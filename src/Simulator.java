@@ -74,8 +74,7 @@ public class Simulator implements ActionListener {
                         tick();
                     }
                 }
-                
-               
+                               
                 if (command == "Start") {
                     simRunning = true;
                     runsim(1440);
@@ -86,10 +85,9 @@ public class Simulator implements ActionListener {
                 }
                 
                 if (command == "Display") {
-                    System.out.println(ZeroToTwoHours + " " + TwoToFourHours + " " + FourOrMoreHours);
+                    System.out.println("0-2 hours: " + ZeroToTwoHours + ". 2-4 hours: " + TwoToFourHours + ". 4+  hours: " + FourOrMoreHours +".");                    
                 }
-                   
-                
+                                   
                 if (command == "Quit") {
                     System.exit(0);
                 }                
@@ -97,8 +95,7 @@ public class Simulator implements ActionListener {
         };        
         newThread.start();    
     }
-    
-    
+        
     public void runsim(int steps) {          
     		for (int i = 0; i < steps; i++) {
     			if(simRunning == true){
