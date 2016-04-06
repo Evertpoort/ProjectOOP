@@ -15,7 +15,7 @@ public class SimulatorView extends JFrame {
         this.numberOfRows = numberOfRows;
         this.numberOfPlaces = numberOfPlaces;
         cars = new Car[numberOfFloors][numberOfRows][numberOfPlaces];
-        carParkView = new CarParkView();               
+        carParkView = new CarParkView(); 
         
         Container contentPane = getContentPane();
         
@@ -34,14 +34,15 @@ public class SimulatorView extends JFrame {
         pauseButton.addActionListener(parent);
         toolbar.add(pauseButton);
         
+        JButton displayButton = new JButton("Display");
+        displayButton.addActionListener(parent);
+        toolbar.add(displayButton);
+        
+        
         JButton quitButton = new JButton("Quit");
         quitButton.addActionListener(parent);
         toolbar.add(quitButton);
-        
-        JLabel label1 = new JLabel("Test");
-        label1.setText("");
-        toolbar.add(label1);
-        
+          
         JPanel flow = new JPanel();
         flow.add(toolbar);
         
@@ -158,7 +159,10 @@ public class SimulatorView extends JFrame {
             }
             return true;
         }
-    
+
+
+        
+        
 private class CarParkView extends JPanel {
         
     private Dimension size;

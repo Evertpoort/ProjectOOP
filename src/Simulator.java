@@ -15,6 +15,11 @@ public class Simulator implements ActionListener {
     private int hour = 0;
     private int minute = 0;
     private int tickPause = 100;
+
+    private int ZeroToTwoHours = 0;
+    private int TwoToFourHours = 0;
+    private int FourOrMoreHours = 0;
+    
     
     private static final double AdHocProb = 0.6;
     private static final double ParkingPassProb = 0.3;
@@ -39,6 +44,8 @@ public class Simulator implements ActionListener {
         exitCarQueue = new CarQueue();
         simulatorView = new SimulatorView(3, 6, 30, this);        
     }
+    
+    
     
     /**
      * Implementation of thread override.
@@ -68,14 +75,20 @@ public class Simulator implements ActionListener {
                     }
                 }
                 
+               
                 if (command == "Start") {
                     simRunning = true;
-                    runsim(10000);
+                    runsim(1440);
                 }
                 
                 if (command == "Pause") {
                     simRunning = false;
                 }
+                
+                if (command == "Display") {
+                    System.out.println(ZeroToTwoHours + " " + TwoToFourHours + " " + FourOrMoreHours);
+                }
+                   
                 
                 if (command == "Quit") {
                     System.exit(0);
@@ -129,17 +142,18 @@ public class Simulator implements ActionListener {
         
         for (int i = 0; i < numberOfCarsPerMinute; i++) {
             if(r.nextDouble() <= AdHocProb) {
-                    Car car = new AdHocCar();
-                    entranceCarQueue.addCar(car);
-                }
-                else if(r.nextDouble() <= ParkingPassProb) {
-                    Car car = new ParkingPass();
-                    entranceCarQueue.addCar(car);
-                }
+                Car car = new AdHocCar();
+                entranceCarQueue.addCar(car);
+            }
+            
+            else if(r.nextDouble() <= ParkingPassProb) {
+                Car car = new ParkingPass();
+                entranceCarQueue.addCar(car);
+            }
                 else if(r.nextDouble() <= ReservevationProb) {
-                    Car car = new ReservationCar();
-                    entranceCarQueue.addCar(car);
-                }
+                Car car = new ReservationCar();
+                entranceCarQueue.addCar(car);
+            }
         }
  
 
@@ -154,7 +168,25 @@ public class Simulator implements ActionListener {
             if (freeLocation != null) {
                 simulatorView.setCarAt(freeLocation, car);
                 int stayMinutes = (int) (15 + random.nextFloat() * 10 * 60);
-                car.setMinutesLeft(stayMinutes);
+                car.setMinutesLeft(stayMinutes); 
+                
+                
+                if (car.getMinutesLeft() < 121)
+                {
+                	ZeroToTwoHours++;
+                }
+                
+                if (car.getMinutesLeft() > 120 && car.getMinutesLeft() < 241)
+                {
+                	TwoToFourHours++;
+                }
+                
+                if (car.getMinutesLeft() > 240)
+                {
+                	FourOrMoreHours++;
+                }
+                
+                
             }
         }
 
@@ -180,9 +212,7 @@ public class Simulator implements ActionListener {
             if (car instanceof AdHocCar){
             car.setIsPaying(true);
             paymentCarQueue.addCar(car);
-            }
-            
-            
+            }                       
         }
 
         // Let cars pay.

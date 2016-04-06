@@ -3,6 +3,9 @@ public abstract class Car {
     private Location location;
     private int minutesLeft;
     private boolean isPaying;
+    
+    
+    
 
     /**
      * Constructor for objects of class Car /
@@ -27,6 +30,11 @@ public abstract class Car {
         this.minutesLeft = minutesLeft;
     }
     
+    public int getMinutesStayed(int minutesLeft)
+    {
+    	return minutesLeft;
+    }
+        
     public boolean getIsPaying() {
         return isPaying;
     }
