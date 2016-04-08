@@ -33,10 +33,6 @@ public class Simulator implements ActionListener {
     int enterSpeed = 3; // number of cars that can enter per minute
     int paymentSpeed = 10; // number of cars that can pay per minute
     int exitSpeed = 9; // number of cars that can leave per minute
-
-    public static void main(String[] args){
-        new Simulator();        
-    }
     
     public Simulator() {
         entranceCarQueue = new CarQueue();
