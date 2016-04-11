@@ -1,3 +1,5 @@
+
+
 public abstract class Car {
 
     private Location location;

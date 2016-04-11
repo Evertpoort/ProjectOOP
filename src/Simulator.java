@@ -1,15 +1,14 @@
-import java.util.Random;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.border.*;
 
-public class Simulator implements ActionListener {
+import java.util.Random;
+import java.awt.event.*;
+
+class Simulator   {
     private CarQueue entranceCarQueue;
     private CarQueue paymentCarQueue;
     private CarQueue exitCarQueue;
-    private SimulatorView simulatorView;
+    private Controller controller;
     private ActionEvent event;
+    private View simulatorView;
   
     private int day = 0;
     private int hour = 0;
@@ -19,8 +18,7 @@ public class Simulator implements ActionListener {
     private int ZeroToTwoHours = 0;
     private int TwoToFourHours = 0;
     private int FourOrMoreHours = 0;
-    
-    
+      
     private static final double AdHocProb = 0.6;
     private static final double ParkingPassProb = 0.3;
     private static final double ReservevationProb = 0.1;
@@ -38,59 +36,43 @@ public class Simulator implements ActionListener {
         entranceCarQueue = new CarQueue();
         paymentCarQueue = new CarQueue();
         exitCarQueue = new CarQueue();
-        simulatorView = new SimulatorView(3, 6, 30, this);        
+        simulatorView = new View(3, 6, 30, this); 
+        controller = new Controller(this);
     }
-    
-    
-    
+
     /**
      * Implementation of thread override.
      * @author Sam Kroon
      */
     
-    public void setActionEvent(ActionEvent e) {
-        event = e;
-    }
-    
-    public ActionEvent getActionEvent() {
-        return event;
-    }
-    
-    public void actionPerformed(ActionEvent e) {
-        setActionEvent(e);
-        
-        Thread newThread = new Thread() {
-            public void run() {
-            	
-                ActionEvent event = getActionEvent();                
-                String command = event.getActionCommand();
-                
-                if(command == "Step one minute") {
-                    for(int i = 0; i<1; i++) {
-                        tick();
-                    }
-                }
-                               
-                if (command == "Start") {
-                    simRunning = true;
-                    runsim(1440);
-                }
-                
-                if (command == "Pause") {
-                    simRunning = false;
-                }
-                
-                if (command == "Display") {
-                    System.out.println("0-2 hours: " + ZeroToTwoHours + ". 2-4 hours: " + TwoToFourHours + ". 4+  hours: " + FourOrMoreHours +".");                    
-                }
-                                   
-                if (command == "Quit") {
-                    System.exit(0);
-                }                
-            }          
-        };        
-        newThread.start();    
-    }
+    public void start()
+	{
+    	simRunning = true;
+        runsim(1440);
+	}
+	
+	public void pause()
+	{
+        simRunning = false;
+	}
+	
+	public void step()
+	{
+		for(int i = 0; i<1; i++) {
+            tick();
+		}
+	}
+	
+	public void display()
+	{
+        System.out.println("0-2 hours: " + ZeroToTwoHours + ". 2-4 hours: " + TwoToFourHours + ". 4+  hours: " + FourOrMoreHours +".");                    
+
+	}
+	
+	public void quit()
+	{
+		System.exit(0);
+	}
         
     public void runsim(int steps) {          
     		for (int i = 0; i < steps; i++) {
