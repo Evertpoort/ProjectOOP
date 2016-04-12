@@ -16,15 +16,17 @@ class Model   {
     private int ZeroToTwoHours = 0;
     private int TwoToFourHours = 0;
     private int FourOrMoreHours = 0;
+    
     private int revenue = 0;
+    
     private int adHocEntranceAmount = 0;
     private int parkingPassEntranceAmount = 0;
     private int reservationEntranceAmount = 0;
     
     private int queueLength = 0 ;
+    
+    private int amountOfCars = 0;
 
-
-      
     private static final double AdHocProb = 0.6;
     private static final double ParkingPassProb = 0.3;
     private static final double ReservevationProb = 0.1;
@@ -61,12 +63,15 @@ class Model   {
     public int getReservationEntranceAmount(){
     	return reservationEntranceAmount;
     }
-
+    
+    public int getAmountOfCars(){
+    	return amountOfCars;
+    }
+    
     public int getRevenue()
     {    	
 		return revenue;
-    }
-    
+    }   
     
     public void start()
 	{
@@ -142,18 +147,21 @@ class Model   {
             if(r.nextDouble() <= AdHocProb) {
                 Car car = new AdHocCar();
                 entranceCarQueue.addCar(car);
-            	queueLength ++;
+            	queueLength ++;           	
+            	amountOfCars++;
             }
             
             else if(r.nextDouble() <= ParkingPassProb) {
                 Car car = new ParkingPassCar();
                 entranceCarQueue.addCar(car);
-            	queueLength ++;               
+            	queueLength ++;     
+            	amountOfCars++;
             }
                 else if(r.nextDouble() <= ReservevationProb) {
                 Car car = new ReservationCar();
                 entranceCarQueue.addCar(car);
-            	queueLength ++;               
+            	queueLength ++;
+            	amountOfCars++;
             }
         }
  
@@ -175,7 +183,6 @@ class Model   {
                 	int hours = car.getMinutesLeft()/60*4;
                 	revenue += hours;
                 	queueLength--;
-
                 }  
                 
                 if (car instanceof ParkingPassCar){
@@ -219,24 +226,28 @@ class Model   {
             if (car instanceof ParkingPassCar){
             	simulatorView.removeCarAt(car.getLocation());
             	exitCarQueue.addCar(car);
+            	amountOfCars--;
+
             	
             }
             
             if (car instanceof ReservationCar){
             	simulatorView.removeCarAt(car.getLocation());
-            	exitCarQueue.addCar(car);
-            	
+            	exitCarQueue.addCar(car);   
+            	amountOfCars--;
+
             }
             
             if (car instanceof AdHocCar){
             car.setIsPaying(true);
             paymentCarQueue.addCar(car);
-            
+        	amountOfCars--;
             }                    
         }
 
         // Let cars pay.
-        for (int i = 0; i < paymentSpeed; i++) {
+        for (int i = 0; i < paymentSpeed; i++) 
+        {
             Car car = paymentCarQueue.removeCar();
             if (car == null) {
                 break;

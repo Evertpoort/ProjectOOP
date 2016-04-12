@@ -17,6 +17,7 @@ public class View extends JFrame implements ActionListener {
     private ActionEvent event;
     private JLabel revenueLabel;
     private JLabel queueLengthLabel;
+    private JLabel amountOfCarsLabel;
 
 
     public View(int numberOfFloors, int numberOfRows, int numberOfPlaces, Model model) {
@@ -34,7 +35,7 @@ public class View extends JFrame implements ActionListener {
         
         JPanel flow = new JPanel();
         flow.add(toolbar);
-        
+
         contentPane.add(carParkView, BorderLayout.CENTER);
         contentPane.add(flow, BorderLayout.SOUTH);
     
@@ -44,13 +45,17 @@ public class View extends JFrame implements ActionListener {
         JButton displayButton = new JButton("Display");
         JButton quitButton = new JButton("Quit");
         
-        revenueLabel = new JLabel("Label");
+        revenueLabel = new JLabel("Revenue");
         revenueLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		revenueLabel.setText(String.valueOf(model.getRevenue()));
 		
-		queueLengthLabel = new JLabel("Label");
+		queueLengthLabel = new JLabel("Queue Length");
         queueLengthLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		queueLengthLabel.setText(String.valueOf(model.getQueueLength()));
+		
+		amountOfCarsLabel = new JLabel("Amount of Cars");
+		amountOfCarsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		amountOfCarsLabel.setText(String.valueOf(model.getAmountOfCars()));
 		
 
         startButton.addActionListener(this);
@@ -66,6 +71,8 @@ public class View extends JFrame implements ActionListener {
         toolbar.add(quitButton);
         toolbar.add(revenueLabel);
         toolbar.add(queueLengthLabel);
+        toolbar.add(amountOfCarsLabel);
+        
                   
         //contentPane.add(flow, BorderLayout.NORTH);
      
@@ -123,8 +130,11 @@ public class View extends JFrame implements ActionListener {
     	public void updateView() {
     		carParkView.updateView();
     		
-    		revenueLabel.setText(String.valueOf(model.getRevenue()));
-    		queueLengthLabel.setText(String.valueOf(model.getQueueLength()));
+    		revenueLabel.setText("Revenue: €" + String.valueOf(model.getRevenue())+ ".-");
+    		queueLengthLabel.setText("Queue Length: " + String.valueOf(model.getQueueLength()));
+    		amountOfCarsLabel.setText("Amount of Cars: " + String.valueOf(model.getAmountOfCars()) + "/540");
+
+    		
 
     	}
     
@@ -231,9 +241,6 @@ public class View extends JFrame implements ActionListener {
         
 private class CarParkView extends JPanel {
         
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private Dimension size;
     private Image carParkImage;    
@@ -251,7 +258,7 @@ private class CarParkView extends JPanel {
      */
         
     public Dimension getPreferredSize() {
-        return new Dimension(800, 500);
+        return new Dimension(1200, 500);
     }
     
     /**
