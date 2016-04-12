@@ -131,7 +131,7 @@ class Model   {
             }
             
             else if(r.nextDouble() <= ParkingPassProb) {
-                Car car = new ParkingPass();
+                Car car = new ParkingPassCar();
                 entranceCarQueue.addCar(car);
             }
                 else if(r.nextDouble() <= ReservevationProb) {
@@ -183,7 +183,7 @@ class Model   {
             if (car == null) {
                 break;
             }
-            if (car instanceof ParkingPass){
+            if (car instanceof ParkingPassCar){
             	simulatorView.removeCarAt(car.getLocation());
             	exitCarQueue.addCar(car);
             	int hours = car.getMinutesLeft()/60*2;

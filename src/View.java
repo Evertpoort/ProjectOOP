@@ -3,24 +3,61 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.border.*;
 
-public class View extends JFrame {
+public class View extends JFrame implements ActionListener {
+	
     private CarParkView carParkView;
+    private Model model;
     private int numberOfFloors;
     private int numberOfRows;
     private int numberOfPlaces;
     private Car[][][] cars;
+    private ActionEvent event;
+
 
     public View(int numberOfFloors, int numberOfRows, int numberOfPlaces, Model model) {
         this.numberOfFloors = numberOfFloors;
         this.numberOfRows = numberOfRows;
         this.numberOfPlaces = numberOfPlaces;
+		this.model=model;
         cars = new Car[numberOfFloors][numberOfRows][numberOfPlaces];
         carParkView = new CarParkView(); 
         
         Container contentPane = getContentPane();
         
+        JPanel toolbar = new JPanel();
+        toolbar.setLayout(new GridLayout(1, 0));
+        
+        JPanel flow = new JPanel();
+        flow.add(toolbar);
+        
         contentPane.add(carParkView, BorderLayout.CENTER);
+        contentPane.add(flow, BorderLayout.SOUTH);
+
         //contentPane.add(population, BorderLayout.SOUTH);
+        
+        JButton startButton = new JButton("Start");
+        JButton stepButton = new JButton("Step one minute");
+        JButton pauseButton = new JButton("Pause");
+        JButton displayButton = new JButton("Display");
+        JButton quitButton = new JButton("Quit");
+        JLabel revenueLabel = new JLabel("Label");
+		revenueLabel.setText("Current revenue");
+
+        startButton.addActionListener(this);
+        stepButton.addActionListener(this);
+        pauseButton.addActionListener(this);
+        displayButton.addActionListener(this);
+        quitButton.addActionListener(this);
+
+        toolbar.add(startButton);
+        toolbar.add(stepButton);     
+        toolbar.add(pauseButton);        
+        toolbar.add(displayButton);             
+        toolbar.add(quitButton);
+        toolbar.add(revenueLabel);
+                  
+        //contentPane.add(flow, BorderLayout.NORTH);
+     
         
         
         pack();
@@ -28,6 +65,46 @@ public class View extends JFrame {
         updateView();
     }
     
+    public void setActionEvent(ActionEvent e) {
+        event = e;
+    }
+    
+    public ActionEvent getActionEvent() {
+        return event;
+    }
+    
+    public void actionPerformed(ActionEvent e) {
+        setActionEvent(e);
+        
+        Thread newThread = new Thread() {
+            public void run() {
+            	
+                ActionEvent event = getActionEvent();                
+                String command = event.getActionCommand();
+                
+                if(command == "Step one minute") {
+                	model.step();                    
+                }
+                
+                if(command == "Pause") {
+                	model.pause();                    
+                }
+                               
+                if (command == "Start") {
+                	model.start();                    
+                }
+                 
+                if (command == "Display") {
+                	model.display();                    
+                }
+                                   
+                if (command == "Quit") {
+                	model.quit();                                        
+                }                
+            }          
+        };        
+        newThread.start();    
+    }
     	
 
     	public void updateView() {
@@ -189,7 +266,7 @@ private class CarParkView extends JPanel {
                         Location location = new Location(floor, row, place);
                         Car car = getCarAt(location);
                         
-                        if(car instanceof ParkingPass){Color color = car == null ? Color.white : Color.orange;
+                        if(car instanceof ParkingPassCar){Color color = car == null ? Color.white : Color.orange;
                         drawPlace(graphics, location, color);}
                         
                         else if (car instanceof ReservationCar){Color color = car == null ? Color.white : Color.blue;

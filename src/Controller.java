@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 
 public class Controller extends JFrame implements ActionListener {
 	
-	
 	private Model model;
     private ActionEvent event;
     private String test = "1";

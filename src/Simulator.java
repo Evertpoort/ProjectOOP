@@ -1,7 +1,7 @@
 
 public class Simulator {
     
-	private Controller controller;
+	//private Controller controller;
 	private Model model;
 	
 
@@ -9,7 +9,7 @@ public class Simulator {
 	public Simulator()
 	{
         model = new Model();
-        controller = new Controller(model);
+       // controller = new Controller(model);
 		
 	}
 }
