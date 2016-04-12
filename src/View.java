@@ -17,6 +17,7 @@ public class View extends JFrame implements ActionListener {
     private ActionEvent event;
     private JLabel revenueLabel;
     private JLabel queueLengthLabel;
+    private JLabel amountOfCarsLabel;
 
 
     public View(int numberOfFloors, int numberOfRows, int numberOfPlaces, Model model) {
@@ -32,44 +33,48 @@ public class View extends JFrame implements ActionListener {
         JPanel toolbar = new JPanel();
         toolbar.setLayout(new GridLayout(1, 0));
         
-        JPanel flow = new JPanel();
-        flow.add(toolbar);
+        JPanel toolbar2 = new JPanel();
+        toolbar2.setLayout(new GridLayout(1, 0));
         
+        
+        JPanel flow = new JPanel(new GridLayout(0, 1) );
+        flow.add(toolbar);
+        flow.add(toolbar2);
+
+
         contentPane.add(carParkView, BorderLayout.CENTER);
         contentPane.add(flow, BorderLayout.SOUTH);
     
         JButton startButton = new JButton("Start");
         JButton stepButton = new JButton("Step one minute");
         JButton pauseButton = new JButton("Pause");
-        JButton displayButton = new JButton("Display");
         JButton quitButton = new JButton("Quit");
         
-        revenueLabel = new JLabel("Label");
+        revenueLabel = new JLabel("Revenue");
         revenueLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		revenueLabel.setText(String.valueOf(model.getRevenue()));
 		
-		queueLengthLabel = new JLabel("Label");
+		queueLengthLabel = new JLabel("Queue Length");
         queueLengthLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		queueLengthLabel.setText(String.valueOf(model.getQueueLength()));
+		
+		amountOfCarsLabel = new JLabel("Amount of Cars");
+		amountOfCarsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		amountOfCarsLabel.setText(String.valueOf(model.getAmountOfCars()));
 		
 
         startButton.addActionListener(this);
         stepButton.addActionListener(this);
         pauseButton.addActionListener(this);
-        displayButton.addActionListener(this);
         quitButton.addActionListener(this);
 
         toolbar.add(startButton);
         toolbar.add(stepButton);     
         toolbar.add(pauseButton);        
-        toolbar.add(displayButton);             
         toolbar.add(quitButton);
-        toolbar.add(revenueLabel);
-        toolbar.add(queueLengthLabel);
-                  
-        //contentPane.add(flow, BorderLayout.NORTH);
-     
-        
+        toolbar2.add(revenueLabel);
+        toolbar2.add(queueLengthLabel);
+        toolbar2.add(amountOfCarsLabel);
         
         pack();
         setVisible(true);
@@ -106,11 +111,7 @@ public class View extends JFrame implements ActionListener {
                 if (command == "Start") {
                 	model.start();                    
                 }
-                 
-                if (command == "Display") {
-                	model.display();                    
-                }
-                                   
+                                                   
                 if (command == "Quit") {
                 	model.quit();                                        
                 }                
@@ -123,8 +124,11 @@ public class View extends JFrame implements ActionListener {
     	public void updateView() {
     		carParkView.updateView();
     		
-    		revenueLabel.setText(String.valueOf(model.getRevenue()));
-    		queueLengthLabel.setText(String.valueOf(model.getQueueLength()));
+    		revenueLabel.setText("Revenue: €" + String.valueOf(model.getRevenue())+ ".-");
+    		queueLengthLabel.setText("Queue Length: " + String.valueOf(model.getQueueLength()));
+    		amountOfCarsLabel.setText("Amount of Cars: " + String.valueOf(model.getAmountOfCars()) + "/540");
+
+    		
 
     	}
     
@@ -231,9 +235,6 @@ public class View extends JFrame implements ActionListener {
         
 private class CarParkView extends JPanel {
         
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private Dimension size;
     private Image carParkImage;    
@@ -251,7 +252,7 @@ private class CarParkView extends JPanel {
      */
         
     public Dimension getPreferredSize() {
-        return new Dimension(800, 500);
+        return new Dimension(800, 400);
     }
     
     /**
