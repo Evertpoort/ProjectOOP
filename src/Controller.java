@@ -25,14 +25,14 @@ public class Controller extends JFrame implements ActionListener {
         flow.add(toolbar);
          
         
-		//revenue.setText(String.valueOf(test));
         JButton startButton = new JButton("Start");
         JButton stepButton = new JButton("Step one minute");
         JButton pauseButton = new JButton("Pause");
         JButton displayButton = new JButton("Display");
         JButton quitButton = new JButton("Quit");
         JLabel revenueLabel = new JLabel("Label");
-		revenueLabel.setText("Current revenue");
+        
+		revenueLabel.setText(String.valueOf(test));
 
         startButton.addActionListener(this);
         stepButton.addActionListener(this);
