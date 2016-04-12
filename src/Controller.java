@@ -18,11 +18,19 @@ public class Controller extends JFrame implements ActionListener {
 
 		Container contentPane = getContentPane();
 		
+		/*
+		JLabel revenue = new JLabel();
+		revenue.setText("Current revenue");
+		revenue.setText(String.valueof(Simulator.revenue));
+		*/
+		
         JPanel toolbar = new JPanel();
         toolbar.setLayout(new GridLayout(1, 0));
         
         JPanel flow = new JPanel();
         flow.add(toolbar);
+        
+        //flow.add(revenue);
         
         JButton startButton = new JButton("Start");
         JButton stepButton = new JButton("Step one minute");
@@ -42,7 +50,7 @@ public class Controller extends JFrame implements ActionListener {
         toolbar.add(displayButton);             
         toolbar.add(quitButton);
                   
-        contentPane.add(flow, BorderLayout.NORTH);                
+        contentPane.add(flow, BorderLayout.NORTH);
         pack();
         setVisible(true);	
 	}

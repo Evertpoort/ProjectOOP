@@ -24,6 +24,8 @@ class Simulator   {
     private static final double ReservevationProb = 0.1;
     
     private boolean simRunning = false;
+    
+    int revenue;
 
     int weekDayArrivals= 50; // average number of arriving cars per hour
     int weekendArrivals = 90; // average number of arriving cars per hour
@@ -177,11 +179,15 @@ class Simulator   {
             if (car instanceof ParkingPass){
             	simulatorView.removeCarAt(car.getLocation());
             	exitCarQueue.addCar(car);
+            	int hours = car.getMinutesLeft()/60*2;
+            	revenue =+ hours;	
             }
             
             if (car instanceof ReservationCar){
             	simulatorView.removeCarAt(car.getLocation());
             	exitCarQueue.addCar(car);
+            	int hours = car.getMinutesLeft()/60*3;
+            	revenue =+ hours;
             }
             
             if (car instanceof AdHocCar){
@@ -199,6 +205,8 @@ class Simulator   {
             // TODO Handle payment.
             simulatorView.removeCarAt(car.getLocation());
             exitCarQueue.addCar(car);
+            int hours = car.getMinutesLeft()/60*3;
+        	revenue =+ hours;
         }
 
         // Let cars leave.
