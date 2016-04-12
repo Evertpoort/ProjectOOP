@@ -7,6 +7,5 @@
 */
 public class ParkingPassCar extends Car {
 		public ParkingPassCar() {
-			
 		}
 }

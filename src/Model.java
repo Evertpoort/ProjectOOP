@@ -1,4 +1,3 @@
-
 import java.util.Random;
 
 class Model   {
@@ -13,7 +12,6 @@ class Model   {
     private int tickPause = 100;
     
     private int revenue = 0;
-    
     
     private int queueLength = 0 ;
     
@@ -41,8 +39,7 @@ class Model   {
         exitCarQueue = new CarQueue();
         simulatorView = new View(3, 6, 30, this); 
     }
-    
-    
+      
     public int getQueueLength(){
     	return queueLength;
     }
@@ -53,7 +50,6 @@ class Model   {
     
     public int getAmountOfReservationCars(){
     	return amountOfReservationCars;
-
     }
     
     public int getAmountOfParkingPassCars(){
@@ -64,31 +60,26 @@ class Model   {
     	return amountOfCars;
     }
     
-    public int getRevenue()
-    {    	
+    public int getRevenue(){    	
 		return revenue;
     }   
     
-    public void start()
-	{
+    public void start(){
     	simRunning = true;
         runsim(1440);
 	}
 	
-	public void pause()
-	{
+	public void pause(){
         simRunning = false;
 	}
 	
-	public void step()
-	{
+	public void step(){
 		for(int i = 0; i<1; i++) {
             tick();
 		}
 	}
 	
-	public void quit()
-	{
+	public void quit(){
 		System.exit(0);
 	}
         
@@ -152,7 +143,7 @@ class Model   {
                 else if(r.nextDouble() <= ReservevationProb) {
                 Car car = new ReservationCar();
                 entranceCarQueue.addCar(car);
-            	queueLength ++;
+            	queueLength ++; 
             	amountOfCars++;
             	amountOfReservationCars ++;
             }
@@ -205,15 +196,12 @@ class Model   {
             	simulatorView.removeCarAt(car.getLocation());
             	exitCarQueue.addCar(car);
             	amountOfCars--;
-
-            	
             }
             
             if (car instanceof ReservationCar){
             	simulatorView.removeCarAt(car.getLocation());
             	exitCarQueue.addCar(car);   
             	amountOfCars--;
-
             }
             
             if (car instanceof AdHocCar){
@@ -224,8 +212,7 @@ class Model   {
         }
 
         // Let cars pay.
-        for (int i = 0; i < paymentSpeed; i++) 
-        {
+        for (int i = 0; i < paymentSpeed; i++) {
             Car car = paymentCarQueue.removeCar();
             if (car == null) {
                 break;

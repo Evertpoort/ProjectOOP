@@ -2,11 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class View extends JFrame implements ActionListener {
-	
-    /**
-	 * 
-	 */
+public class View extends JFrame implements ActionListener {	
 	private static final long serialVersionUID = 1L;
 	private CarParkView carParkView;
     private Model model;
@@ -22,8 +18,6 @@ public class View extends JFrame implements ActionListener {
     private JLabel amountOfReservationCarsLabel;
     private JLabel amountOfParkingPassCarsLabel;
 
-
-
     public View(int numberOfFloors, int numberOfRows, int numberOfPlaces, Model model) {
         this.numberOfFloors = numberOfFloors;
         this.numberOfRows = numberOfRows;
@@ -35,19 +29,18 @@ public class View extends JFrame implements ActionListener {
         Container contentPane = getContentPane();
         
         JPanel toolbar = new JPanel();
-        toolbar.setLayout(new GridLayout(1, 0));
-        
         JPanel toolbar2 = new JPanel();
-        toolbar2.setLayout(new GridLayout(1, 0));
-        
         JPanel toolbar3 = new JPanel();
+
+
+        toolbar.setLayout(new GridLayout(1, 0));        
+        toolbar2.setLayout(new GridLayout(1, 0));        
         toolbar3.setLayout(new GridLayout(1, 0));
         
         JPanel flow = new JPanel(new GridLayout(0, 1) );
         flow.add(toolbar);
         flow.add(toolbar2);
         flow.add(toolbar3);
-
 
         contentPane.add(carParkView, BorderLayout.CENTER);
         contentPane.add(flow, BorderLayout.SOUTH);
@@ -81,7 +74,6 @@ public class View extends JFrame implements ActionListener {
 		amountOfParkingPassCarsLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		amountOfParkingPassCarsLabel.setText(String.valueOf(model.getAmountOfCars()));
 		
-
         startButton.addActionListener(this);
         stepButton.addActionListener(this);
         pauseButton.addActionListener(this);
@@ -105,8 +97,6 @@ public class View extends JFrame implements ActionListener {
         updateView();
     }
     
-  
-
     public void setActionEvent(ActionEvent e) {
         event = e;
     }
@@ -144,7 +134,6 @@ public class View extends JFrame implements ActionListener {
         newThread.start();    
     }
     	
-
     	public void updateView() {
     		carParkView.updateView();
     		
@@ -254,10 +243,7 @@ public class View extends JFrame implements ActionListener {
             }
             return true;
         }
-
-
-        
-        
+  
 private class CarParkView extends JPanel {
         
 	private static final long serialVersionUID = 1L;

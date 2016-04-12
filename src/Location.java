@@ -1,13 +1,9 @@
-
 public class Location {
 
     private int floor;
     private int row;
     private int place;
-
-    /**
-     * Constructor for objects of class Location
-     */
+   
     public Location(int floor, int row, int place) {
         this.floor = floor;
         this.row = row;
@@ -31,6 +27,7 @@ public class Location {
      * Return a string of the form floor,row,place.
      * @return A string representation of the location.
      */
+    
     public String toString() {
         return floor + "," + row + "," + place;
     }
@@ -41,6 +38,7 @@ public class Location {
      * a unique hash code for each (floor, row, place) tupel.
      * @return A hashcode for the location.
      */
+    
     public int hashCode() {
         return (floor << 20) + (row << 10) + place;
     }
@@ -55,6 +53,7 @@ public class Location {
     /**
      * @return The row.
      */
+    
     public int getRow() {
         return row;
     }
@@ -62,8 +61,8 @@ public class Location {
     /**
      * @return The place.
      */
+    
     public int getPlace() {
         return place;
     }
-
 }

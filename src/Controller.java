@@ -6,13 +6,13 @@ import java.awt.event.ActionListener;
 
 public class Controller extends JFrame implements ActionListener {
 	
+	private static final long serialVersionUID = 1L;
 	private Model model;
     private ActionEvent event;
     private String test = "1";
     public JTable table;
 
-	public Controller(Model model)
-	{				
+	public Controller(Model model){				
 		this.model=model;
 
 		Container contentPane = getContentPane();
