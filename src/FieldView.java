@@ -1,50 +1,33 @@
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.border.*;
 
-public class View extends JFrame {
-    private CarParkView carParkView;
+import java.awt.*;
+
+public class FieldView extends AbstractView {
+    private CarParkView carParkView;   
+    private Car[][][] cars;
     private int numberOfFloors;
     private int numberOfRows;
     private int numberOfPlaces;
-    private Car[][][] cars;
 
-    public View(int numberOfFloors, int numberOfRows, int numberOfPlaces, Simulator parent) {
-        this.numberOfFloors = numberOfFloors;
-        this.numberOfRows = numberOfRows;
-        this.numberOfPlaces = numberOfPlaces;
+    public FieldView(Logic logic,int numberOfFloors, int numberOfRows, int numberOfPlaces) {
+    	
+    	super(logic);        
         cars = new Car[numberOfFloors][numberOfRows][numberOfPlaces];
         carParkView = new CarParkView(); 
         
-        Container contentPane = getContentPane();
-        
-        contentPane.add(carParkView, BorderLayout.CENTER);
-        //contentPane.add(population, BorderLayout.SOUTH);
-        
-        
         pack();
+		setSize(200,200);
         setVisible(true);
         updateView();
+        
+        
     }
     
-    	
-
     	public void updateView() {
     		carParkView.updateView();
     	}
     
-     	public int getNumberOfFloors() {
-            return numberOfFloors;
-        }
-    
-     	public int getNumberOfRows() {
-            return numberOfRows;
-        }
-    
-        public int getNumberOfPlaces() {
-            return numberOfPlaces;
-        }
+     	
     
         public Car getCarAt(Location location) {
             if (!locationIsValid(location)) {
@@ -77,6 +60,18 @@ public class View extends JFrame {
             cars[location.getFloor()][location.getRow()][location.getPlace()] = null;
             car.setLocation(null);
             return car;
+        }
+        
+        public int getNumberOfFloors() {
+            return numberOfFloors;
+        }
+
+     	public int getNumberOfRows() {
+            return numberOfRows;
+        }
+
+        public int getNumberOfPlaces() {
+            return numberOfPlaces;
         }
     
         public Location getFirstFreeLocation() {
@@ -126,26 +121,28 @@ public class View extends JFrame {
             int floor = location.getFloor();
             int row = location.getRow();
             int place = location.getPlace();
-            if (floor < 0 || floor >= numberOfFloors || row < 0 || row > numberOfRows || place < 0 || place > numberOfPlaces) {
+            if (floor < 0 || floor >= getNumberOfFloors() || row < 0 || row > getNumberOfRows() || place < 0 || place > getNumberOfPlaces()) {
                 return false;
             }
             return true;
+        
+            
         }
+        
 
 
-        
-        
 private class CarParkView extends JPanel {
-        
-    private Dimension size;
-    private Image carParkImage;    
+	
+    private Dimension size;    
+    private Image carParkImage;
+
     
     /**
      * Constructor for objects of class CarPark
      */
         
-    public CarParkView() {
-        size = new Dimension(0, 0);
+    public CarParkView() {    	        
+    	size = new Dimension(0, 0);  
     }
     
     /**
@@ -175,36 +172,39 @@ private class CarParkView extends JPanel {
             g.drawImage(carParkImage, 0, 0, currentSize.width, currentSize.height, null);
         }
     }
+   
+
+   
     
-    public void updateView() {
-        // Create a new car park image if the size has changed.
-    	if (!size.equals(getSize())) {
-            size = getSize();
-            carParkImage = createImage(size.width, size.height);
-            }
-            Graphics graphics = carParkImage.getGraphics();
-            for(int floor = 0; floor < getNumberOfFloors(); floor++) {
-                for(int row = 0; row < getNumberOfRows(); row++) {
-                    for(int place = 0; place < getNumberOfPlaces(); place++) {
-                        Location location = new Location(floor, row, place);
-                        Car car = getCarAt(location);
-                        
-                        if(car instanceof ParkingPass){Color color = car == null ? Color.white : Color.orange;
-                        drawPlace(graphics, location, color);}
-                        
-                        else if (car instanceof ReservationCar){Color color = car == null ? Color.white : Color.blue;
-                        drawPlace(graphics, location, color);}
-                        
-                        else {Color color = car == null ? Color.white : Color.red;
-                        drawPlace(graphics, location, color);}                        
-                    }
-                }
-            }
-            repaint();
-        }
+   public void updateView() {
+       // Create a new car park image if the size has changed.
+   	if (!size.equals(getSize())) {
+           size = getSize();
+           carParkImage = createImage(size.width, size.height);
+           }
+           Graphics graphics = carParkImage.getGraphics();
+           for(int floor = 0; floor < getNumberOfFloors(); floor++) {
+               for(int row = 0; row < getNumberOfRows(); row++) {
+                   for(int place = 0; place < getNumberOfPlaces(); place++) {
+                       Location location = new Location(floor, row, place);
+                       Car car = getCarAt(location);
+                       
+                       if(car instanceof ParkingPass){Color color = car == null ? Color.white : Color.orange;
+                       drawPlace(graphics, location, color);}
+                       
+                       else if (car instanceof ReservationCar){Color color = car == null ? Color.white : Color.blue;
+                       drawPlace(graphics, location, color);}
+                       
+                       else {Color color = car == null ? Color.white : Color.red;
+                       drawPlace(graphics, location, color);}                        
+                   }
+               }
+           }
+           repaint();
+       }
     
         /**
-         * Paint a place on this car park view in a given color.
+         * Paint a place on this car park view in a given colour.
          */
         
     private void drawPlace(Graphics graphics, Location location, Color color) {
@@ -216,4 +216,5 @@ private class CarParkView extends JPanel {
             10 - 1); // TODO use dynamic size or constants
     	}
  	}
+
 }

@@ -4,19 +4,25 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Controller extends JFrame implements ActionListener {
+public class Controller extends AbstractController implements ActionListener  {
 	
 	
-	private Simulator simulator;
-    private ActionEvent event;
+	private static final long serialVersionUID = 1L;
+	//private JButton startButton;
+	//private JButton stepButton;
+	//private JButton pauseButton;
+	//private JButton displayButton;
+	//private JButton quitButton;
+	private ActionEvent event;
 
 
-	public Controller(Simulator simulator)
-	{		
+
+	public Controller(Logic logic)
+	{	
+
+		super(logic);
 		
-		this.simulator=simulator;
-
-		Container contentPane = getContentPane();
+		//Container contentPane = getContentPane();
         JPanel toolbar = new JPanel();
         toolbar.setLayout(new GridLayout(1, 0));
         
@@ -41,13 +47,13 @@ public class Controller extends JFrame implements ActionListener {
         toolbar.add(displayButton);             
         toolbar.add(quitButton);
                   
-        contentPane.add(flow, BorderLayout.NORTH);                
-        pack();
+        //contentPane.add(flow, BorderLayout.NORTH);                
+        //pack();
         setVisible(true);	
 	}
 	
-	
-	public void setActionEvent(ActionEvent e) {
+
+    public void setActionEvent(ActionEvent e) {
         event = e;
     }
     
@@ -65,26 +71,31 @@ public class Controller extends JFrame implements ActionListener {
                 String command = event.getActionCommand();
                 
                 if(command == "Step one minute") {
-                    simulator.step();                    
-                }
+            		for(int i = 0; i<1; i++) {
+                        //tick();
+            		}                
+            	}
                 
                 if(command == "Pause") {
-                    simulator.pause();                    
+                    //simRunning = false;
                 }
                                
                 if (command == "Start") {
-                    simulator.start();                    
+                	//simRunning = true;
+                    //runsim(1440);                
                 }
                  
                 if (command == "Display") {
-                    simulator.display();                    
+                    //System.out.println("0-2 hours: " + ZeroToTwoHours + ". 2-4 hours: " + TwoToFourHours + ". 4+  hours: " + FourOrMoreHours +".");                    
                 }
                                    
                 if (command == "Quit") {
-                    simulator.quit();                                        
+            		//System.exit(0);
                 }                
             }          
         };        
         newThread.start();    
     }
+
+
 }
