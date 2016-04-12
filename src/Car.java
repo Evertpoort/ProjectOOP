@@ -1,17 +1,9 @@
-
-
 public abstract class Car {
 
     private Location location;
     private int minutesLeft;
     private boolean isPaying;
     
-    
-    
-
-    /**
-     * Constructor for objects of class Car /
-     */
     public Car() {
 
     }
@@ -48,5 +40,4 @@ public abstract class Car {
     public void tick() {
         minutesLeft--;
     }
-
 }

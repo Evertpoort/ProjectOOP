@@ -1,6 +1,4 @@
-
 import java.util.Random;
-import java.awt.event.*;
 
 class Model   {
     private CarQueue entranceCarQueue;
@@ -12,20 +10,15 @@ class Model   {
     private int hour = 0;
     private int minute = 0;
     private int tickPause = 100;
-
-    private int ZeroToTwoHours = 0;
-    private int TwoToFourHours = 0;
-    private int FourOrMoreHours = 0;
     
     private int revenue = 0;
-    
-    private int adHocEntranceAmount = 0;
-    private int parkingPassEntranceAmount = 0;
-    private int reservationEntranceAmount = 0;
     
     private int queueLength = 0 ;
     
     private int amountOfCars = 0;
+    private int amountOfAdHocCars = 0;
+    private int amountOfReservationCars = 0;
+    private int amountOfParkingPassCars = 0;
 
     private static final double AdHocProb = 0.6;
     private static final double ParkingPassProb = 0.3;
@@ -46,53 +39,47 @@ class Model   {
         exitCarQueue = new CarQueue();
         simulatorView = new View(3, 6, 30, this); 
     }
-    
-    
+      
     public int getQueueLength(){
     	return queueLength;
     }
-    
-    public int getAdHocEntranceAmount(){
-    	return adHocEntranceAmount;
+ 
+    public int getAmountOfAdHocCars(){
+    	return amountOfAdHocCars;
     }
     
-    public int getParkingPassEntranceAmount(){
-    	return parkingPassEntranceAmount;
+    public int getAmountOfReservationCars(){
+    	return amountOfReservationCars;
     }
     
-    public int getReservationEntranceAmount(){
-    	return reservationEntranceAmount;
+    public int getAmountOfParkingPassCars(){
+    	return amountOfParkingPassCars;
     }
     
     public int getAmountOfCars(){
     	return amountOfCars;
     }
     
-    public int getRevenue()
-    {    	
+    public int getRevenue(){    	
 		return revenue;
     }   
     
-    public void start()
-	{
+    public void start(){
     	simRunning = true;
         runsim(1440);
 	}
 	
-	public void pause()
-	{
+	public void pause(){
         simRunning = false;
 	}
 	
-	public void step()
-	{
+	public void step(){
 		for(int i = 0; i<1; i++) {
             tick();
 		}
 	}
 	
-	public void quit()
-	{
+	public void quit(){
 		System.exit(0);
 	}
         
@@ -143,19 +130,22 @@ class Model   {
                 entranceCarQueue.addCar(car);
             	queueLength ++;           	
             	amountOfCars++;
+            	amountOfAdHocCars++;
             }
             
             else if(r.nextDouble() <= ParkingPassProb) {
                 Car car = new ParkingPassCar();
                 entranceCarQueue.addCar(car);
             	queueLength ++;     
-            	amountOfCars++;
+            	amountOfCars ++;
+            	amountOfParkingPassCars ++;
             }
                 else if(r.nextDouble() <= ReservevationProb) {
                 Car car = new ReservationCar();
                 entranceCarQueue.addCar(car);
-            	queueLength ++;
+            	queueLength ++; 
             	amountOfCars++;
+            	amountOfReservationCars ++;
             }
         }
  
@@ -189,22 +179,7 @@ class Model   {
                 	int hours = car.getMinutesLeft()/60*3;
                 	revenue += hours; 
                 	queueLength--;
-                }
-                		
-                if (car.getMinutesLeft() < 121)
-                {
-                	ZeroToTwoHours++;
-                }
-                
-                if (car.getMinutesLeft() > 120 && car.getMinutesLeft() < 241)
-                {
-                	TwoToFourHours++;
-                }
-                
-                if (car.getMinutesLeft() > 240)
-                {
-                	FourOrMoreHours++;
-                }                               
+                }                            
             }
         }
 
@@ -221,15 +196,12 @@ class Model   {
             	simulatorView.removeCarAt(car.getLocation());
             	exitCarQueue.addCar(car);
             	amountOfCars--;
-
-            	
             }
             
             if (car instanceof ReservationCar){
             	simulatorView.removeCarAt(car.getLocation());
             	exitCarQueue.addCar(car);   
             	amountOfCars--;
-
             }
             
             if (car instanceof AdHocCar){
@@ -240,8 +212,7 @@ class Model   {
         }
 
         // Let cars pay.
-        for (int i = 0; i < paymentSpeed; i++) 
-        {
+        for (int i = 0; i < paymentSpeed; i++) {
             Car car = paymentCarQueue.removeCar();
             if (car == null) {
                 break;

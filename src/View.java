@@ -2,11 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class View extends JFrame implements ActionListener {
-	
-    /**
-	 * 
-	 */
+public class View extends JFrame implements ActionListener {	
 	private static final long serialVersionUID = 1L;
 	private CarParkView carParkView;
     private Model model;
@@ -18,7 +14,9 @@ public class View extends JFrame implements ActionListener {
     private JLabel revenueLabel;
     private JLabel queueLengthLabel;
     private JLabel amountOfCarsLabel;
-
+    private JLabel amountOfAdHocCarsLabel;
+    private JLabel amountOfReservationCarsLabel;
+    private JLabel amountOfParkingPassCarsLabel;
 
     public View(int numberOfFloors, int numberOfRows, int numberOfPlaces, Model model) {
         this.numberOfFloors = numberOfFloors;
@@ -31,16 +29,18 @@ public class View extends JFrame implements ActionListener {
         Container contentPane = getContentPane();
         
         JPanel toolbar = new JPanel();
-        toolbar.setLayout(new GridLayout(1, 0));
-        
         JPanel toolbar2 = new JPanel();
-        toolbar2.setLayout(new GridLayout(1, 0));
-        
+        JPanel toolbar3 = new JPanel();
+
+
+        toolbar.setLayout(new GridLayout(1, 0));        
+        toolbar2.setLayout(new GridLayout(1, 0));        
+        toolbar3.setLayout(new GridLayout(1, 0));
         
         JPanel flow = new JPanel(new GridLayout(0, 1) );
         flow.add(toolbar);
         flow.add(toolbar2);
-
+        flow.add(toolbar3);
 
         contentPane.add(carParkView, BorderLayout.CENTER);
         contentPane.add(flow, BorderLayout.SOUTH);
@@ -62,7 +62,18 @@ public class View extends JFrame implements ActionListener {
 		amountOfCarsLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		amountOfCarsLabel.setText(String.valueOf(model.getAmountOfCars()));
 		
-
+		amountOfAdHocCarsLabel = new JLabel("Amount of AdHocCars");
+		amountOfAdHocCarsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		amountOfAdHocCarsLabel.setText(String.valueOf(model.getAmountOfCars()));
+	
+		amountOfReservationCarsLabel = new JLabel("Amount of ReservationCars");
+		amountOfReservationCarsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		amountOfReservationCarsLabel.setText(String.valueOf(model.getAmountOfCars()));
+		
+		amountOfParkingPassCarsLabel = new JLabel("Amount of ParkingPassCars");
+		amountOfParkingPassCarsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		amountOfParkingPassCarsLabel.setText(String.valueOf(model.getAmountOfCars()));
+		
         startButton.addActionListener(this);
         stepButton.addActionListener(this);
         pauseButton.addActionListener(this);
@@ -72,17 +83,20 @@ public class View extends JFrame implements ActionListener {
         toolbar.add(stepButton);     
         toolbar.add(pauseButton);        
         toolbar.add(quitButton);
+        
         toolbar2.add(revenueLabel);
         toolbar2.add(queueLengthLabel);
         toolbar2.add(amountOfCarsLabel);
+        
+        toolbar3.add(amountOfAdHocCarsLabel);
+        toolbar3.add(amountOfReservationCarsLabel);
+        toolbar3.add(amountOfParkingPassCarsLabel);
         
         pack();
         setVisible(true);
         updateView();
     }
     
-  
-
     public void setActionEvent(ActionEvent e) {
         event = e;
     }
@@ -120,16 +134,16 @@ public class View extends JFrame implements ActionListener {
         newThread.start();    
     }
     	
-
     	public void updateView() {
     		carParkView.updateView();
     		
     		revenueLabel.setText("Revenue: €" + String.valueOf(model.getRevenue())+ ".-");
     		queueLengthLabel.setText("Queue Length: " + String.valueOf(model.getQueueLength()));
     		amountOfCarsLabel.setText("Amount of Cars: " + String.valueOf(model.getAmountOfCars()) + "/540");
-
     		
-
+    		amountOfAdHocCarsLabel.setText("Amount of AdHocCars: " + String.valueOf(model.getAmountOfAdHocCars()));
+    		amountOfReservationCarsLabel.setText("Amount of ReservationCars: " + String.valueOf(model.getAmountOfReservationCars()));
+    		amountOfParkingPassCarsLabel.setText("Amount of ParkingPassCars: " + String.valueOf(model.getAmountOfParkingPassCars()));
     	}
     
      	public int getNumberOfFloors() {
@@ -229,10 +243,7 @@ public class View extends JFrame implements ActionListener {
             }
             return true;
         }
-
-
-        
-        
+  
 private class CarParkView extends JPanel {
         
 	private static final long serialVersionUID = 1L;
