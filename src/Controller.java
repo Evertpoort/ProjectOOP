@@ -4,36 +4,36 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Controller extends AbstractController implements ActionListener  {
+public class Controller extends JFrame implements ActionListener {
 	
 	
-	private static final long serialVersionUID = 1L;
-	//private JButton startButton;
-	//private JButton stepButton;
-	//private JButton pauseButton;
-	//private JButton displayButton;
-	//private JButton quitButton;
-	private ActionEvent event;
+	private Model model;
+    private ActionEvent event;
+    private String test = "1";
 
 
+	public Controller(Model model)
+	{				
+		this.model=model;
 
-	public Controller(Logic logic)
-	{	
-
-		super(logic);
+		Container contentPane = getContentPane();
 		
-		//Container contentPane = getContentPane();
+		
         JPanel toolbar = new JPanel();
         toolbar.setLayout(new GridLayout(1, 0));
         
         JPanel flow = new JPanel();
         flow.add(toolbar);
+         
         
+		//revenue.setText(String.valueOf(test));
         JButton startButton = new JButton("Start");
         JButton stepButton = new JButton("Step one minute");
         JButton pauseButton = new JButton("Pause");
         JButton displayButton = new JButton("Display");
         JButton quitButton = new JButton("Quit");
+        JLabel revenueLabel = new JLabel("Label");
+		revenueLabel.setText("Current revenue");
 
         startButton.addActionListener(this);
         stepButton.addActionListener(this);
@@ -46,14 +46,15 @@ public class Controller extends AbstractController implements ActionListener  {
         toolbar.add(pauseButton);        
         toolbar.add(displayButton);             
         toolbar.add(quitButton);
+        toolbar.add(revenueLabel);
                   
-        //contentPane.add(flow, BorderLayout.NORTH);                
-        //pack();
+        contentPane.add(flow, BorderLayout.NORTH);
+        pack();
         setVisible(true);	
 	}
 	
-
-    public void setActionEvent(ActionEvent e) {
+	
+	public void setActionEvent(ActionEvent e) {
         event = e;
     }
     
@@ -71,31 +72,26 @@ public class Controller extends AbstractController implements ActionListener  {
                 String command = event.getActionCommand();
                 
                 if(command == "Step one minute") {
-            		for(int i = 0; i<1; i++) {
-                        //tick();
-            		}                
-            	}
+                	model.step();                    
+                }
                 
                 if(command == "Pause") {
-                    //simRunning = false;
+                	model.pause();                    
                 }
                                
                 if (command == "Start") {
-                	//simRunning = true;
-                    //runsim(1440);                
+                	model.start();                    
                 }
                  
                 if (command == "Display") {
-                    //System.out.println("0-2 hours: " + ZeroToTwoHours + ". 2-4 hours: " + TwoToFourHours + ". 4+  hours: " + FourOrMoreHours +".");                    
+                	model.display();                    
                 }
                                    
                 if (command == "Quit") {
-            		//System.exit(0);
+                	model.quit();                                        
                 }                
             }          
         };        
         newThread.start();    
     }
-
-
 }

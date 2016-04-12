@@ -1,11 +1,13 @@
 
-import java.util.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.Random;
+import java.awt.event.*;
 
-	public class Logic extends AbstractModel  {
-	
-    
+class Model   {
+    private CarQueue entranceCarQueue;
+    private CarQueue paymentCarQueue;
+    private CarQueue exitCarQueue;
+    private View simulatorView;
+  
     private int day = 0;
     private int hour = 0;
     private int minute = 0;
@@ -14,6 +16,8 @@ import java.awt.event.ActionListener;
     private int ZeroToTwoHours = 0;
     private int TwoToFourHours = 0;
     private int FourOrMoreHours = 0;
+    private int revenue;
+
       
     private static final double AdHocProb = 0.6;
     private static final double ParkingPassProb = 0.3;
@@ -21,28 +25,64 @@ import java.awt.event.ActionListener;
     
     private boolean simRunning = false;
     
-	protected CarQueue entranceCarQueue;
-	protected CarQueue paymentCarQueue;
-	protected CarQueue exitCarQueue;
-	protected FieldView fieldView;
-	protected Simulator simulator;
-    
     int weekDayArrivals= 50; // average number of arriving cars per hour
     int weekendArrivals = 90; // average number of arriving cars per hour
 
-    int exitSpeed = 9; // number of cars that can leave per minute
     int enterSpeed = 3; // number of cars that can enter per minute
     int paymentSpeed = 10; // number of cars that can pay per minute
-
+    int exitSpeed = 9; // number of cars that can leave per minute
     
-    public Logic(){    	
-    	entranceCarQueue = new CarQueue();
+    public Model() {
+        entranceCarQueue = new CarQueue();
         paymentCarQueue = new CarQueue();
         exitCarQueue = new CarQueue();
+        simulatorView = new View(3, 6, 30, this); 
+        
+
+    }
+
+    /**
+     * Implementation of thread override.
+     * @author Sam Kroon
+     */
+    
+    public int getRevenue()
+    {
+		return revenue;
+    	
     }
     
-    
-   
+    public void start()
+	{
+    	simRunning = true;
+        runsim(1440);
+	}
+	
+	public void pause()
+	{
+        simRunning = false;
+	}
+	
+	public void step()
+	{
+		for(int i = 0; i<1; i++) {
+            tick();
+		}
+		System.out.println(getRevenue());
+
+	}
+	
+	public void display()
+	{
+        System.out.println("0-2 hours: " + ZeroToTwoHours + ". 2-4 hours: " + TwoToFourHours + ". 4+  hours: " + FourOrMoreHours +".");                    
+
+	}
+	
+	public void quit()
+	{
+		System.exit(0);
+	}
+        
     public void runsim(int steps) {          
     		for (int i = 0; i < steps; i++) {
     			if(simRunning == true){
@@ -108,9 +148,9 @@ import java.awt.event.ActionListener;
                 break;
             }
             // Find a space for this car.
-            Location freeLocation = fieldView.getFirstFreeLocation();
+            Location freeLocation = simulatorView.getFirstFreeLocation();
             if (freeLocation != null) {
-            	fieldView.setCarAt(freeLocation, car);
+                simulatorView.setCarAt(freeLocation, car);
                 int stayMinutes = (int) (15 + random.nextFloat() * 10 * 60);
                 car.setMinutesLeft(stayMinutes); 
                 
@@ -135,22 +175,26 @@ import java.awt.event.ActionListener;
         }
 
         // Perform car park tick.
-        fieldView.tick();
+        simulatorView.tick();
 
         // Add leaving cars to the exit queue.
         while (true) {
-            Car car = fieldView.getFirstLeavingCar();
+            Car car = simulatorView.getFirstLeavingCar();
             if (car == null) {
                 break;
             }
             if (car instanceof ParkingPass){
-            	fieldView.removeCarAt(car.getLocation());
+            	simulatorView.removeCarAt(car.getLocation());
             	exitCarQueue.addCar(car);
+            	int hours = car.getMinutesLeft()/60*2;
+            	revenue =+ hours;	
             }
             
             if (car instanceof ReservationCar){
-            	fieldView.removeCarAt(car.getLocation());
+            	simulatorView.removeCarAt(car.getLocation());
             	exitCarQueue.addCar(car);
+            	int hours = car.getMinutesLeft()/60*3;
+            	revenue =+ hours;
             }
             
             if (car instanceof AdHocCar){
@@ -166,8 +210,10 @@ import java.awt.event.ActionListener;
                 break;
             }
             // TODO Handle payment.
-            fieldView.removeCarAt(car.getLocation());
+            simulatorView.removeCarAt(car.getLocation());
             exitCarQueue.addCar(car);
+            int hours = car.getMinutesLeft()/60*3;
+        	revenue =+ hours;
         }
 
         // Let cars leave.
@@ -180,7 +226,7 @@ import java.awt.event.ActionListener;
         }
 
         // Update the car park view.
-        fieldView.updateView();
+        simulatorView.updateView();
 
         // Pause.
         try {
@@ -190,4 +236,3 @@ import java.awt.event.ActionListener;
         }
     }
 }
-

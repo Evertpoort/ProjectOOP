@@ -1,11 +1,13 @@
 
 
-public abstract class Car extends Logic{
+public abstract class Car {
 
     private Location location;
     private int minutesLeft;
     private boolean isPaying;
-
+    
+    
+    
 
     /**
      * Constructor for objects of class Car /
