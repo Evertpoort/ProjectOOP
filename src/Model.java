@@ -91,12 +91,6 @@ class Model   {
 		}
 	}
 	
-	public void display()
-	{
-        System.out.println("0-2 hours: " + ZeroToTwoHours + ". 2-4 hours: " + TwoToFourHours + ". 4+  hours: " + FourOrMoreHours +".");                    
-
-	}
-	
 	public void quit()
 	{
 		System.exit(0);

@@ -33,8 +33,14 @@ public class View extends JFrame implements ActionListener {
         JPanel toolbar = new JPanel();
         toolbar.setLayout(new GridLayout(1, 0));
         
-        JPanel flow = new JPanel();
+        JPanel toolbar2 = new JPanel();
+        toolbar2.setLayout(new GridLayout(1, 0));
+        
+        
+        JPanel flow = new JPanel(new GridLayout(0, 1) );
         flow.add(toolbar);
+        flow.add(toolbar2);
+
 
         contentPane.add(carParkView, BorderLayout.CENTER);
         contentPane.add(flow, BorderLayout.SOUTH);
@@ -42,7 +48,6 @@ public class View extends JFrame implements ActionListener {
         JButton startButton = new JButton("Start");
         JButton stepButton = new JButton("Step one minute");
         JButton pauseButton = new JButton("Pause");
-        JButton displayButton = new JButton("Display");
         JButton quitButton = new JButton("Quit");
         
         revenueLabel = new JLabel("Revenue");
@@ -61,22 +66,15 @@ public class View extends JFrame implements ActionListener {
         startButton.addActionListener(this);
         stepButton.addActionListener(this);
         pauseButton.addActionListener(this);
-        displayButton.addActionListener(this);
         quitButton.addActionListener(this);
 
         toolbar.add(startButton);
         toolbar.add(stepButton);     
         toolbar.add(pauseButton);        
-        toolbar.add(displayButton);             
         toolbar.add(quitButton);
-        toolbar.add(revenueLabel);
-        toolbar.add(queueLengthLabel);
-        toolbar.add(amountOfCarsLabel);
-        
-                  
-        //contentPane.add(flow, BorderLayout.NORTH);
-     
-        
+        toolbar2.add(revenueLabel);
+        toolbar2.add(queueLengthLabel);
+        toolbar2.add(amountOfCarsLabel);
         
         pack();
         setVisible(true);
@@ -113,11 +111,7 @@ public class View extends JFrame implements ActionListener {
                 if (command == "Start") {
                 	model.start();                    
                 }
-                 
-                if (command == "Display") {
-                	model.display();                    
-                }
-                                   
+                                                   
                 if (command == "Quit") {
                 	model.quit();                                        
                 }                
@@ -258,7 +252,7 @@ private class CarParkView extends JPanel {
      */
         
     public Dimension getPreferredSize() {
-        return new Dimension(1200, 500);
+        return new Dimension(800, 400);
     }
     
     /**

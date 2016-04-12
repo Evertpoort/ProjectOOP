@@ -17,38 +17,30 @@ public class Controller extends JFrame implements ActionListener {
 
 		Container contentPane = getContentPane();
 		
-		
         JPanel toolbar = new JPanel();
         toolbar.setLayout(new GridLayout(1, 0));
         
         JPanel flow = new JPanel();
         flow.add(toolbar);
-        
-        
 
         JButton startButton = new JButton("Start");
         JButton stepButton = new JButton("Step one minute");
         JButton pauseButton = new JButton("Pause");
-        JButton displayButton = new JButton("Display");
         JButton quitButton = new JButton("Quit");
         JLabel revenueLabel = new JLabel("Label");
-        JLabel parkingPassLabel = new JLabel("Label");
         
 		revenueLabel.setText(String.valueOf(test));
 
         startButton.addActionListener(this);
         stepButton.addActionListener(this);
         pauseButton.addActionListener(this);
-        displayButton.addActionListener(this);
         quitButton.addActionListener(this);
 
         toolbar.add(startButton);
         toolbar.add(stepButton);     
         toolbar.add(pauseButton);        
-        toolbar.add(displayButton);             
         toolbar.add(quitButton);
         toolbar.add(revenueLabel);
-        toolbar.add(parkingPassLabel);
                   
         contentPane.add(flow, BorderLayout.NORTH);
         pack();
@@ -84,11 +76,7 @@ public class Controller extends JFrame implements ActionListener {
                 if (command == "Start") {
                 	model.start();                    
                 }
-                 
-                if (command == "Display") {
-                	model.display();                    
-                }
-                                   
+                                                
                 if (command == "Quit") {
                 	model.quit();                                        
                 }                
