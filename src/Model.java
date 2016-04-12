@@ -2,7 +2,7 @@
 import java.util.Random;
 import java.awt.event.*;
 
-class Simulator   {
+class Model   {
     private CarQueue entranceCarQueue;
     private CarQueue paymentCarQueue;
     private CarQueue exitCarQueue;
@@ -18,6 +18,8 @@ class Simulator   {
     private int ZeroToTwoHours = 0;
     private int TwoToFourHours = 0;
     private int FourOrMoreHours = 0;
+    private int revenue;
+
       
     private static final double AdHocProb = 0.6;
     private static final double ParkingPassProb = 0.3;
@@ -25,8 +27,6 @@ class Simulator   {
     
     private boolean simRunning = false;
     
-    int revenue;
-
     int weekDayArrivals= 50; // average number of arriving cars per hour
     int weekendArrivals = 90; // average number of arriving cars per hour
 
@@ -34,18 +34,26 @@ class Simulator   {
     int paymentSpeed = 10; // number of cars that can pay per minute
     int exitSpeed = 9; // number of cars that can leave per minute
     
-    public Simulator() {
+    public Model() {
         entranceCarQueue = new CarQueue();
         paymentCarQueue = new CarQueue();
         exitCarQueue = new CarQueue();
         simulatorView = new View(3, 6, 30, this); 
         controller = new Controller(this);
+        
+
     }
 
     /**
      * Implementation of thread override.
      * @author Sam Kroon
      */
+    
+    public int getRevenue()
+    {
+		return revenue;
+    	
+    }
     
     public void start()
 	{
@@ -63,6 +71,8 @@ class Simulator   {
 		for(int i = 0; i<1; i++) {
             tick();
 		}
+		System.out.println(getRevenue());
+
 	}
 	
 	public void display()

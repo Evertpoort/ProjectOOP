@@ -10,7 +10,7 @@ public class View extends JFrame {
     private int numberOfPlaces;
     private Car[][][] cars;
 
-    public View(int numberOfFloors, int numberOfRows, int numberOfPlaces, Simulator parent) {
+    public View(int numberOfFloors, int numberOfRows, int numberOfPlaces, Model model) {
         this.numberOfFloors = numberOfFloors;
         this.numberOfRows = numberOfRows;
         this.numberOfPlaces = numberOfPlaces;

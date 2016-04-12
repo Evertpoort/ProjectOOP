@@ -7,36 +7,33 @@ import java.awt.event.ActionListener;
 public class Controller extends JFrame implements ActionListener {
 	
 	
-	private Simulator simulator;
+	private Model model;
     private ActionEvent event;
-    private int test = 0;
+    private String test = "1";
 
 
-	public Controller(Simulator simulator)
+	public Controller(Model model)
 	{				
-		this.simulator=simulator;
+		this.model=model;
 
 		Container contentPane = getContentPane();
 		
-		/*
-		JLabel revenue = new JLabel();
-		revenue.setText("Current revenue");
-		revenue.setText(String.valueof(Simulator.revenue));
-		*/
 		
         JPanel toolbar = new JPanel();
         toolbar.setLayout(new GridLayout(1, 0));
         
         JPanel flow = new JPanel();
         flow.add(toolbar);
+         
         
-        //flow.add(revenue);
-        
+		//revenue.setText(String.valueOf(test));
         JButton startButton = new JButton("Start");
         JButton stepButton = new JButton("Step one minute");
         JButton pauseButton = new JButton("Pause");
         JButton displayButton = new JButton("Display");
         JButton quitButton = new JButton("Quit");
+        JLabel revenueLabel = new JLabel("Label");
+		revenueLabel.setText("Current revenue");
 
         startButton.addActionListener(this);
         stepButton.addActionListener(this);
@@ -49,6 +46,7 @@ public class Controller extends JFrame implements ActionListener {
         toolbar.add(pauseButton);        
         toolbar.add(displayButton);             
         toolbar.add(quitButton);
+        toolbar.add(revenueLabel);
                   
         contentPane.add(flow, BorderLayout.NORTH);
         pack();
@@ -74,23 +72,23 @@ public class Controller extends JFrame implements ActionListener {
                 String command = event.getActionCommand();
                 
                 if(command == "Step one minute") {
-                    simulator.step();                    
+                	model.step();                    
                 }
                 
                 if(command == "Pause") {
-                    simulator.pause();                    
+                	model.pause();                    
                 }
                                
                 if (command == "Start") {
-                    simulator.start();                    
+                	model.start();                    
                 }
                  
                 if (command == "Display") {
-                    simulator.display();                    
+                	model.display();                    
                 }
                                    
                 if (command == "Quit") {
-                    simulator.quit();                                        
+                	model.quit();                                        
                 }                
             }          
         };        
