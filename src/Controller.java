@@ -9,7 +9,7 @@ public class Controller extends JFrame implements ActionListener {
 	private Model model;
     private ActionEvent event;
     private String test = "1";
-
+    public JTable table;
 
 	public Controller(Model model)
 	{				
@@ -23,8 +23,9 @@ public class Controller extends JFrame implements ActionListener {
         
         JPanel flow = new JPanel();
         flow.add(toolbar);
-         
         
+        
+
         JButton startButton = new JButton("Start");
         JButton stepButton = new JButton("Step one minute");
         JButton pauseButton = new JButton("Pause");

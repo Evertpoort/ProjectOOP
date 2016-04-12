@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import javax.swing.border.*;
 
 public class View extends JFrame implements ActionListener {
 	
@@ -13,7 +12,6 @@ public class View extends JFrame implements ActionListener {
     private Car[][][] cars;
     private ActionEvent event;
     private JLabel revenueLabel;
-
 
     public View(int numberOfFloors, int numberOfRows, int numberOfPlaces, Model model) {
         this.numberOfFloors = numberOfFloors;
@@ -33,15 +31,15 @@ public class View extends JFrame implements ActionListener {
         
         contentPane.add(carParkView, BorderLayout.CENTER);
         contentPane.add(flow, BorderLayout.SOUTH);
-
-        //contentPane.add(population, BorderLayout.SOUTH);
-        
+    
         JButton startButton = new JButton("Start");
         JButton stepButton = new JButton("Step one minute");
         JButton pauseButton = new JButton("Pause");
         JButton displayButton = new JButton("Display");
         JButton quitButton = new JButton("Quit");
+        
         revenueLabel = new JLabel("Label");
+        revenueLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		revenueLabel.setText(String.valueOf(model.getRevenue()));
 
         startButton.addActionListener(this);
@@ -66,6 +64,8 @@ public class View extends JFrame implements ActionListener {
         updateView();
     }
     
+  
+
     public void setActionEvent(ActionEvent e) {
         event = e;
     }
@@ -111,7 +111,6 @@ public class View extends JFrame implements ActionListener {
     	public void updateView() {
     		carParkView.updateView();
     		revenueLabel.setText(String.valueOf(model.getRevenue()));
-
     	}
     
      	public int getNumberOfFloors() {
