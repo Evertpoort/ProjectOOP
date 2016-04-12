@@ -1,5 +1,6 @@
 public class RunSimulator { 
-public static void main(String[] args){
+	
+	public static void main(String[] args){
         new Model();        
     }
 }
