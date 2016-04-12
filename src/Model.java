@@ -16,10 +16,13 @@ class Model   {
     private int ZeroToTwoHours = 0;
     private int TwoToFourHours = 0;
     private int FourOrMoreHours = 0;
-    private int revenue;
-    private int adHocEntranceAmount;
-    private int parkingPassEntranceAmount;
-    private int reservationEntranceAmount;
+    private int revenue = 0;
+    private int adHocEntranceAmount = 0;
+    private int parkingPassEntranceAmount = 0;
+    private int reservationEntranceAmount = 0;
+    
+    private int queueLength = 0 ;
+
 
       
     private static final double AdHocProb = 0.6;
@@ -40,6 +43,11 @@ class Model   {
         paymentCarQueue = new CarQueue();
         exitCarQueue = new CarQueue();
         simulatorView = new View(3, 6, 30, this); 
+    }
+    
+    
+    public int getQueueLength(){
+    	return queueLength;
     }
     
     public int getAdHocEntranceAmount(){
@@ -134,18 +142,18 @@ class Model   {
             if(r.nextDouble() <= AdHocProb) {
                 Car car = new AdHocCar();
                 entranceCarQueue.addCar(car);
-                adHocEntranceAmount ++;
+            	queueLength ++;
             }
             
             else if(r.nextDouble() <= ParkingPassProb) {
                 Car car = new ParkingPassCar();
                 entranceCarQueue.addCar(car);
-                parkingPassEntranceAmount ++;
+            	queueLength ++;               
             }
                 else if(r.nextDouble() <= ReservevationProb) {
                 Car car = new ReservationCar();
                 entranceCarQueue.addCar(car);
-                reservationEntranceAmount ++;
+            	queueLength ++;               
             }
         }
  
@@ -163,24 +171,25 @@ class Model   {
                 int stayMinutes = (int) (15 + random.nextFloat() * 10 * 60);
                 car.setMinutesLeft(stayMinutes); 
                 
+                if (car instanceof AdHocCar){
+                	int hours = car.getMinutesLeft()/60*4;
+                	revenue += hours;
+                	queueLength--;
+
+                }  
+                
                 if (car instanceof ParkingPassCar){
                 	int hours = car.getMinutesLeft()/60*2;
-                	revenue += hours;              	
-                	parkingPassEntranceAmount --;
+                	revenue += hours;                    
+                	queueLength--;
                 }
                 	
                 if (car instanceof ReservationCar){
                 	int hours = car.getMinutesLeft()/60*3;
-                	revenue += hours;               		
-                	reservationEntranceAmount --;
+                	revenue += hours; 
+                	queueLength--;
                 }
                 		
-                if (car instanceof AdHocCar){
-                	int hours = car.getMinutesLeft()/60*4;
-                	revenue += hours;	               			
-                	adHocEntranceAmount --;
-                }                	
-                
                 if (car.getMinutesLeft() < 121)
                 {
                 	ZeroToTwoHours++;

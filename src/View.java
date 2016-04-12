@@ -16,7 +16,7 @@ public class View extends JFrame implements ActionListener {
     private Car[][][] cars;
     private ActionEvent event;
     private JLabel revenueLabel;
-    private JLabel parkingPassEntranceLabel;
+    private JLabel queueLengthLabel;
 
 
     public View(int numberOfFloors, int numberOfRows, int numberOfPlaces, Model model) {
@@ -45,10 +45,13 @@ public class View extends JFrame implements ActionListener {
         JButton quitButton = new JButton("Quit");
         
         revenueLabel = new JLabel("Label");
-        revenueLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        revenueLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		revenueLabel.setText(String.valueOf(model.getRevenue()));
-		parkingPassEntranceLabel = new JLabel("label");
-		parkingPassEntranceLabel.setText(String.valueOf(model.getParkingPassEntranceAmount()));
+		
+		queueLengthLabel = new JLabel("Label");
+        queueLengthLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		queueLengthLabel.setText(String.valueOf(model.getQueueLength()));
+		
 
         startButton.addActionListener(this);
         stepButton.addActionListener(this);
@@ -62,7 +65,7 @@ public class View extends JFrame implements ActionListener {
         toolbar.add(displayButton);             
         toolbar.add(quitButton);
         toolbar.add(revenueLabel);
-        toolbar.add(parkingPassEntranceLabel);
+        toolbar.add(queueLengthLabel);
                   
         //contentPane.add(flow, BorderLayout.NORTH);
      
@@ -119,9 +122,9 @@ public class View extends JFrame implements ActionListener {
 
     	public void updateView() {
     		carParkView.updateView();
+    		
     		revenueLabel.setText(String.valueOf(model.getRevenue()));
-
-    		parkingPassEntranceLabel.setText(String.valueOf(model.getParkingPassEntranceAmount()));
+    		queueLengthLabel.setText(String.valueOf(model.getQueueLength()));
 
     	}
     
