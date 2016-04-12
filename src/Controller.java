@@ -31,6 +31,7 @@ public class Controller extends JFrame implements ActionListener {
         JButton displayButton = new JButton("Display");
         JButton quitButton = new JButton("Quit");
         JLabel revenueLabel = new JLabel("Label");
+        JLabel parkingPassLabel = new JLabel("Label");
         
 		revenueLabel.setText(String.valueOf(test));
 
@@ -46,6 +47,7 @@ public class Controller extends JFrame implements ActionListener {
         toolbar.add(displayButton);             
         toolbar.add(quitButton);
         toolbar.add(revenueLabel);
+        toolbar.add(parkingPassLabel);
                   
         contentPane.add(flow, BorderLayout.NORTH);
         pack();

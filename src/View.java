@@ -13,6 +13,7 @@ public class View extends JFrame implements ActionListener {
     private Car[][][] cars;
     private ActionEvent event;
     private JLabel revenueLabel;
+    private JLabel parkingPassEntranceLabel;
 
 
     public View(int numberOfFloors, int numberOfRows, int numberOfPlaces, Model model) {
@@ -43,6 +44,8 @@ public class View extends JFrame implements ActionListener {
         JButton quitButton = new JButton("Quit");
         revenueLabel = new JLabel("Label");
 		revenueLabel.setText(String.valueOf(model.getRevenue()));
+		parkingPassEntranceLabel = new JLabel("label");
+		parkingPassEntranceLabel.setText(String.valueOf(model.getParkingPassEntranceAmount()));
 
         startButton.addActionListener(this);
         stepButton.addActionListener(this);
@@ -56,6 +59,7 @@ public class View extends JFrame implements ActionListener {
         toolbar.add(displayButton);             
         toolbar.add(quitButton);
         toolbar.add(revenueLabel);
+        toolbar.add(parkingPassEntranceLabel);
                   
         //contentPane.add(flow, BorderLayout.NORTH);
      
@@ -111,6 +115,7 @@ public class View extends JFrame implements ActionListener {
     	public void updateView() {
     		carParkView.updateView();
     		revenueLabel.setText(String.valueOf(model.getRevenue()));
+    		parkingPassEntranceLabel.setText(String.valueOf(model.getParkingPassEntranceAmount()));
 
     	}
     

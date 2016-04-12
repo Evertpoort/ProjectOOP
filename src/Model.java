@@ -17,6 +17,9 @@ class Model   {
     private int TwoToFourHours = 0;
     private int FourOrMoreHours = 0;
     private int revenue;
+    private int adHocEntranceAmount;
+    private int parkingPassEntranceAmount;
+    private int reservationEntranceAmount;
 
       
     private static final double AdHocProb = 0.6;
@@ -39,6 +42,18 @@ class Model   {
         simulatorView = new View(3, 6, 30, this); 
     }
     
+    public int getAdHocEntranceAmount(){
+    	return adHocEntranceAmount;
+    }
+    
+    public int getParkingPassEntranceAmount(){
+    	return parkingPassEntranceAmount;
+    }
+    
+    public int getReservationEntranceAmount(){
+    	return reservationEntranceAmount;
+    }
+
     public int getRevenue()
     {    	
 		return revenue;
@@ -119,15 +134,18 @@ class Model   {
             if(r.nextDouble() <= AdHocProb) {
                 Car car = new AdHocCar();
                 entranceCarQueue.addCar(car);
+                adHocEntranceAmount ++;
             }
             
             else if(r.nextDouble() <= ParkingPassProb) {
                 Car car = new ParkingPassCar();
                 entranceCarQueue.addCar(car);
+                parkingPassEntranceAmount ++;
             }
                 else if(r.nextDouble() <= ReservevationProb) {
                 Car car = new ReservationCar();
                 entranceCarQueue.addCar(car);
+                reservationEntranceAmount ++;
             }
         }
  
@@ -148,16 +166,19 @@ class Model   {
                 if (car instanceof ParkingPassCar){
                 	int hours = car.getMinutesLeft()/60*2;
                 	revenue += hours;              	
+                	parkingPassEntranceAmount --;
                 }
                 	
                 if (car instanceof ReservationCar){
                 	int hours = car.getMinutesLeft()/60*3;
                 	revenue += hours;               		
+                	reservationEntranceAmount --;
                 }
                 		
                 if (car instanceof AdHocCar){
                 	int hours = car.getMinutesLeft()/60*4;
                 	revenue += hours;	               			
+                	adHocEntranceAmount --;
                 }                	
                 
                 if (car.getMinutesLeft() < 121)
