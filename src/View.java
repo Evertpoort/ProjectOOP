@@ -12,6 +12,7 @@ public class View extends JFrame implements ActionListener {
     private int numberOfPlaces;
     private Car[][][] cars;
     private ActionEvent event;
+    private JLabel revenueLabel;
 
 
     public View(int numberOfFloors, int numberOfRows, int numberOfPlaces, Model model) {
@@ -40,8 +41,8 @@ public class View extends JFrame implements ActionListener {
         JButton pauseButton = new JButton("Pause");
         JButton displayButton = new JButton("Display");
         JButton quitButton = new JButton("Quit");
-        JLabel revenueLabel = new JLabel("Label");
-		revenueLabel.setText("Current revenue");
+        revenueLabel = new JLabel("Label");
+		revenueLabel.setText(String.valueOf(model.getRevenue()));
 
         startButton.addActionListener(this);
         stepButton.addActionListener(this);
@@ -109,6 +110,8 @@ public class View extends JFrame implements ActionListener {
 
     	public void updateView() {
     		carParkView.updateView();
+    		revenueLabel.setText(String.valueOf(model.getRevenue()));
+
     	}
     
      	public int getNumberOfFloors() {

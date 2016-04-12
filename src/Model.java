@@ -37,20 +37,13 @@ class Model   {
         paymentCarQueue = new CarQueue();
         exitCarQueue = new CarQueue();
         simulatorView = new View(3, 6, 30, this); 
-        
-
     }
-
-    /**
-     * Implementation of thread override.
-     * @author Sam Kroon
-     */
     
     public int getRevenue()
-    {
+    {    	
 		return revenue;
-    	
     }
+    
     
     public void start()
 	{
@@ -68,8 +61,6 @@ class Model   {
 		for(int i = 0; i<1; i++) {
             tick();
 		}
-		System.out.println(getRevenue());
-
 	}
 	
 	public void display()
@@ -154,6 +145,20 @@ class Model   {
                 int stayMinutes = (int) (15 + random.nextFloat() * 10 * 60);
                 car.setMinutesLeft(stayMinutes); 
                 
+                if (car instanceof ParkingPassCar){
+                	int hours = car.getMinutesLeft()/60*2;
+                	revenue += hours;              	
+                }
+                	
+                if (car instanceof ReservationCar){
+                	int hours = car.getMinutesLeft()/60*3;
+                	revenue += hours;               		
+                }
+                		
+                if (car instanceof AdHocCar){
+                	int hours = car.getMinutesLeft()/60*4;
+                	revenue += hours;	               			
+                }                	
                 
                 if (car.getMinutesLeft() < 121)
                 {
@@ -168,9 +173,7 @@ class Model   {
                 if (car.getMinutesLeft() > 240)
                 {
                 	FourOrMoreHours++;
-                }
-                
-                
+                }                               
             }
         }
 
@@ -186,21 +189,20 @@ class Model   {
             if (car instanceof ParkingPassCar){
             	simulatorView.removeCarAt(car.getLocation());
             	exitCarQueue.addCar(car);
-            	int hours = car.getMinutesLeft()/60*2;
-            	revenue =+ hours;	
+            	
             }
             
             if (car instanceof ReservationCar){
             	simulatorView.removeCarAt(car.getLocation());
             	exitCarQueue.addCar(car);
-            	int hours = car.getMinutesLeft()/60*3;
-            	revenue =+ hours;
+            	
             }
             
             if (car instanceof AdHocCar){
             car.setIsPaying(true);
             paymentCarQueue.addCar(car);
-            }                       
+            
+            }                    
         }
 
         // Let cars pay.
@@ -212,8 +214,6 @@ class Model   {
             // TODO Handle payment.
             simulatorView.removeCarAt(car.getLocation());
             exitCarQueue.addCar(car);
-            int hours = car.getMinutesLeft()/60*3;
-        	revenue =+ hours;
         }
 
         // Let cars leave.
