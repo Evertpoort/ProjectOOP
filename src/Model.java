@@ -6,8 +6,6 @@ class Model   {
     private CarQueue entranceCarQueue;
     private CarQueue paymentCarQueue;
     private CarQueue exitCarQueue;
-    private Controller controller;
-    private ActionEvent event;
     private View simulatorView;
   
     private int day = 0;
@@ -39,7 +37,6 @@ class Model   {
         paymentCarQueue = new CarQueue();
         exitCarQueue = new CarQueue();
         simulatorView = new View(3, 6, 30, this); 
-        controller = new Controller(this);
         
 
     }
